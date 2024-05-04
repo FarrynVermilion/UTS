@@ -16,14 +16,14 @@ import java.util.ArrayList;
 public class result extends AppCompatActivity {
     TextView skorTV,nameTV,TV,TV0;
     SharedPreferences simpan;
-    String prefs = "test";
+    int mode;
     LinearLayout ll;
     boolean bool = true;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.result);
-
-        simpan = getSharedPreferences(prefs, Context.MODE_PRIVATE);
+        mode = getIntent().getIntExtra("mode",0);
+        simpan = getSharedPreferences(String.valueOf(mode), Context.MODE_PRIVATE);
 
         skorTV=findViewById(R.id.skor);
         ll = findViewById(R.id.result);
@@ -64,10 +64,12 @@ public class result extends AppCompatActivity {
     }
     public void goToMainpage(View view){
         Intent next = new Intent(this,MainActivity.class);
+        next.putExtra("mode",mode);
         startActivity(next);
     }
     public void playAgain(View view){
         Intent next = new Intent(this,play.class);
+        next.putExtra("mode",mode);
         startActivity(next);
     }
 }

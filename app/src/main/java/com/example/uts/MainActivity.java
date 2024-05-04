@@ -34,31 +34,83 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     SharedPreferences simpan;
     SharedPreferences.Editor editor;
-    public static final String prefs = "test";
-    TextView ContextHiScore,TV,TV0;
+    public static String prefs;
+    TextView ContextHiScore,modeTV;
     LinearLayout ll0,ll1;
-    boolean ll0bool,ll1bool;
+    boolean ll0bool=true;
+    boolean ll1bool=true;
     int HighScore;
     int jumSelesai;
+    int mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        simpan = getSharedPreferences(prefs, Context.MODE_PRIVATE);
-        editor = simpan.edit();
-
         ContextHiScore = findViewById(R.id.contextHiScore);
         ll0 = findViewById(R.id.result0);
         ll1 = findViewById(R.id.result1);
-        ll0bool = true;
-        ll1bool = true;
+        modeTV = findViewById(R.id.mode);
+        mode=getIntent().getIntExtra("mode",0);
+        setDisplay();
+    }
+    public void setDisplay(){
+        prefs = String.valueOf(mode);
+        simpan = getSharedPreferences(prefs, Context.MODE_PRIVATE);
+        editor = simpan.edit();
+
+        setMode(mode);
 
         HighScore = simpan.getInt("HiScore",0);
         ContextHiScore.setText(String.valueOf(HighScore));
 
         jumSelesai = simpan.getInt("bestAttempt",0);
+    }
+    public void setMode(int x){
+        String str="";
+        switch (x){
+            case 0:
+                str = "Random";
+                break;
+            case 1:
+                str = "Indonesia -> Kunyomi";
+                break;
+            case 2:
+                str = "Indonesia -> Onyomi";
+                break;
+            case 3:
+                str = "Indonesia -> Kanji";
+                break;
+            case 4:
+                str = "Kunyomi -> Indonesia";
+                break;
+            case 5:
+                str = "Kunyomi -> Onyomi";
+                break;
+            case 6:
+                str = "Kunyomi -> Kanji";
+                break;
+            case 7:
+                str = "Onyomi -> Indonesia";
+                break;
+            case 8:
+                str = "Onyomi -> Kunyomi";
+                break;
+            case 9:
+                str = "Onyomi -> Kanji";
+                break;
+            case 10:
+                str = "Kanji -> Indonesia";
+                break;
+            case 11:
+                str = "Kanji -> Kunyomi";
+                break;
+            case 12:
+                str = "Kanji -> Onyomi";
+                break;
+        }
+        modeTV.setText(str);
     }
 
     public void clearHiScore(View view){
@@ -94,26 +146,10 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             if(ll0bool){
-                TV0 = new TextView(this);
-                String A = String.valueOf(simpan.getInt("bestAttempt",0));
-                String B = String.valueOf(simpan.getInt("HiScore",0));
-                TV0.setText("Jumlah soal yang dijawab "+A+" dengan skor "+B);
-                ll0.addView(TV0);
-                for(int x=0;x<z;x++){
-                    String pertamyaam = simpan.getString("Pertanyaan Hi Score "+ x,null);
-                    String soal = simpan.getString("Soal Hi Score "+ x,null);
-                    String jawab = simpan.getString("Jawaban High Score "+ x,null);
-                    String bs = simpan.getString("BS HiScore "+ x,null);
-                    String str = pertamyaam+" "+soal+" adalah "+jawab+" "+bs;
-                    TV = new TextView(this);
-                    TV.setText(str);
-                    TV.setId(x);
-                    ll0.addView(TV);
-                    ll0.setVisibility(View.VISIBLE);
-                }
+                setTVloop("bestAttempt","HiScore",ll0,z);
                 ll0bool=false;
             }
-            else {
+            else{
                 ll0.removeAllViews();
                 ll0bool=true;
             }
@@ -122,38 +158,61 @@ public class MainActivity extends AppCompatActivity {
     }
     public void showLastPlay(View view){
         int z =simpan.getInt("lastAttemptSoal",0);
-        if(z==0){
+        if(z<=0){
             Toast.makeText(getBaseContext(),"Tidak ada last score",Toast.LENGTH_SHORT).show();
         }
         else{
-            if(ll1bool){
-                TV0=new TextView(this);
-                String A = String.valueOf(simpan.getInt("lastAttemptSoal",0));
-                String B = String.valueOf(simpan.getInt("lastAttemptScore",0));
-                TV0.setText("Jumlah soal yang dijawab "+A+" dengan skor "+B);
-                ll1.addView(TV0);
-                for(int x=0;x<z;x++){
-                    String pertamyaam = simpan.getString("Pertanyaan "+ x,null);
-                    String soal = simpan.getString("Soal "+ x,null);
-                    String jawab = simpan.getString("Jawaban "+ x,null);
-                    String bs = simpan.getString("BS "+ x,null);
-                    String str = pertamyaam+" "+soal+" adalah "+jawab+" "+bs;
-                    TV = new TextView(this);
-                    TV.setText(str);
-                    TV.setId(x);
-                    ll1.addView(TV);
-                    ll1.setVisibility(View.VISIBLE);
-                }
+            if(ll0bool){
+                setTVloop("lastAttemptSoal","lastAttemptScore",ll1,z);
                 ll1bool=false;
             }
-            else {
+            else{
                 ll1.removeAllViews();
                 ll1bool=true;
             }
         }
     }
+
+    public void setTVloop(String str0,String str1,LinearLayout layout,int z){
+        TextView textJwb=new TextView(this);
+        String A = String.valueOf(simpan.getInt(str0,0));
+        String B = String.valueOf(simpan.getInt(str1,0));
+        textJwb.setText("Jumlah soal yang dijawab "+A+" dengan skor "+B);
+        layout.addView(textJwb);
+        for(int x=0;x<z;x++){
+            String pertamyaam = simpan.getString("Pertanyaan "+ x,null);
+            String soal = simpan.getString("Soal "+ x,null);
+            String jawab = simpan.getString("Jawaban "+ x,null);
+            String bs = simpan.getString("BS "+ x,null);
+            String str = pertamyaam+" "+soal+" adalah "+jawab+" "+bs;
+            TextView textIsi = new TextView(this);
+            textIsi.setText(str);
+            textIsi.setId(x);
+            layout.addView(textIsi);
+        }
+
+    }
     public void play(View view){
         Intent next = new Intent(this,play.class);
+        next.putExtra("mode",mode);
         startActivity(next);
+    }
+    public void left(View view){
+        mode=mode-1;
+        if(mode<0){mode=12;}
+        setDisplay();
+        removeAllTV();
+    }
+    public void right(View view){
+        mode=mode+1;
+        if(mode>12){mode=0;}
+        setDisplay();
+        removeAllTV();
+    }
+    public void removeAllTV(){
+        ll0.removeAllViews();
+        ll0bool=true;
+        ll1.removeAllViews();
+        ll1bool=true;
     }
 }

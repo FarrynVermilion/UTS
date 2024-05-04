@@ -49,9 +49,10 @@ public class play extends AppCompatActivity {
     ArrayList<Integer >opsi3 = new ArrayList<>();
 
     ArrayList<String>SOAL = new ArrayList<>();
-    ArrayList<String>JAWABAN = new ArrayList<>();
+    ArrayList<String>JWBN = new ArrayList<>();
     ArrayList<String>BS = new ArrayList<>();
     ArrayList<String>PERTANYAAN = new ArrayList<>();
+    ArrayList<String>JAWABAN = new ArrayList<>();
 
     int skorCounter = 0;
 
@@ -65,6 +66,8 @@ public class play extends AppCompatActivity {
     CountDownTimer myCountDownTimer;
     long  elapsedCountDown;
 
+    int mode;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play);
@@ -73,18 +76,11 @@ public class play extends AppCompatActivity {
         for(int x=0;x<kamusCursor.length;x++){
             kamusCursor[x]=null;
         }
-
         dbTranslate = new translate(this);
         db = dbTranslate.getWritableDatabase();
         dbTranslate.createTable(db);
         dbTranslate.generateData(db);
 
-        //create random buat soal,jwabana, dan opsi
-        initRandom();
-
-        //simpan ke shared preference
-        simpan = getSharedPreferences("test", Context.MODE_PRIVATE);
-        editor = simpan.edit();
 
         PertanyaanTV = findViewById(R.id.pertanyaan);
         SoalTV = findViewById(R.id.soal);
@@ -97,13 +93,25 @@ public class play extends AppCompatActivity {
         BTN= findViewById(R.id.jawab);
         SkorTV=findViewById(R.id.score);
 
+        //set mode main
+        mode=getIntent().getIntExtra("mode",0);
+
+
+        //simpan ke shared preference
+        simpan = getSharedPreferences(String.valueOf(mode), Context.MODE_PRIVATE);
+        editor = simpan.edit();
+
+        //clear shared prefe permainan sebelumnya
         clearScore();
 
-        createSoal(soalNo.get(createCounter),soal.get(createCounter),jwb.get(createCounter),opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+        //create random buat soal,jawaban, dan opsi
+        initRandom();
+        //create soal
+        pilihanModeSoal(mode);
+
         timer(60000,0);
         addListenerButton();
     }
-
     public void initRandom(){
         Random rand = new Random();
         int maxSoal = 103;
@@ -138,6 +146,63 @@ public class play extends AppCompatActivity {
             opsi3.add(num3);
         }
     }
+    public void pilihanModeSoal(int x){
+        switch (x){
+            //random
+            case 0:
+                createSoal(soalNo.get(createCounter),soal.get(createCounter),jwb.get(createCounter),opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Indonesia -> Kunyomi
+            case 1:
+                createSoal(soalNo.get(createCounter),1,4,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Indonesia -> Onyomi
+            case 2:
+                createSoal(soalNo.get(createCounter),1,3,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Indonesia -> Kanji
+            case 3:
+                createSoal(soalNo.get(createCounter),1,2,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Kunyomi -> Indonesia
+            case 4:
+                createSoal(soalNo.get(createCounter),4,1,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Kunyomi -> Onyomi
+            case 5:
+                createSoal(soalNo.get(createCounter),4,3,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Kunyomi -> Kanji
+            case 6:
+                createSoal(soalNo.get(createCounter),4,2,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Onyomi -> Indonesia
+            case 7:
+                createSoal(soalNo.get(createCounter),3,1,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Onyomi -> Kunyomi
+            case 8:
+                createSoal(soalNo.get(createCounter),3,4,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Onyomi -> Kanji
+            case 9:
+                createSoal(soalNo.get(createCounter),3,2,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Kanji -> Indonesia
+            case 10:
+                createSoal(soalNo.get(createCounter),2,1,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Kanji -> Kunyomi
+            case 11:
+                createSoal(soalNo.get(createCounter),2,3,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+            //Kanji -> Onyomi
+            case 12:
+                createSoal(soalNo.get(createCounter),2,4,opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+                break;
+        }
+    }
+
     public void createSoal(int SoalNo,int Soal,int Jawab, int Opsi1, int Opsi2, int Opsi3){
         kamusCursor[0] = db.rawQuery("Select ID, INDONESIA, KANJI, ONYOMI, KUNYOMI FROM kamus where ID='" + SoalNo + "'", null);
         kamusCursor[1] = db.rawQuery("Select ID, INDONESIA, KANJI, ONYOMI, KUNYOMI FROM kamus where ID='" + Opsi1 + "'", null);
@@ -154,18 +219,22 @@ public class play extends AppCompatActivity {
         }
         Collections.shuffle(arr);
 
+        //buat pertanyaan
+        String str = pertanyaan(Jawab);
+
         //display opsi
         SoalTV.setText(kamusCursor[0].getString(Soal));
-        PertanyaanTV.setText(pertanyaan(Jawab));
+        PertanyaanTV.setText(str);
         for(int x = 0; x<RB.length;x++){
             RB[x].setText(arr.get(x));
         }
+        //simpan jawaban untuk dicocokan nanti
+        JWBN.add(String.valueOf(kamusCursor[0].getString(Jawab)));
 
+        //simpan soal jawaban dan pertanyaan ke arraylist untuk save ke shared preference
         SOAL.add(String.valueOf(kamusCursor[0].getString(Soal)));
-        JAWABAN.add(String.valueOf(kamusCursor[0].getString(Jawab)));
-        PERTANYAAN.add(String.valueOf(pertanyaan(Jawab)));
+        PERTANYAAN.add(String.valueOf(str));
     }
-
 
     public String pertanyaan(int x){
         String result = "";
@@ -197,8 +266,9 @@ public class play extends AppCompatActivity {
                 else{
                     // find the radiobutton by returned id
                     jawaban = findViewById(selectedId);
-                    String X = JAWABAN.get(createCounter);
+                    String X = JWBN.get(createCounter);
                     String Y = String.valueOf(jawaban.getText());
+                    JAWABAN.add(Y);
                     createCounter=createCounter+1;
 
                     myCountDownTimer.cancel();
@@ -268,6 +338,7 @@ public class play extends AppCompatActivity {
     public void nextPage(){
         myCountDownTimer.cancel();
         Intent next = new Intent(this,result.class);
+        next.putExtra("mode",mode);
         next.putExtra("skor",skorCounter);
         startActivity(next);
 
@@ -302,7 +373,7 @@ public class play extends AppCompatActivity {
         }
         else{
             Toast.makeText(getBaseContext(),String.valueOf(createCounter), Toast.LENGTH_SHORT).show();
-            createSoal(soalNo.get(createCounter),soal.get(createCounter),jwb.get(createCounter),opsi1.get(createCounter),opsi2.get(createCounter),opsi3.get(createCounter));
+            pilihanModeSoal(mode);
         }
     }
 }
