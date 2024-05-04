@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">testSoal</string>
+
+    <string name="m">MAIN PAGE</string>
+    <string name="m0">High Score</string>
+    <string name="m1">CLEAR HIGH SCORE</string>
+    <string name="m2">PLAY</string>
+    <string name="m3">SHOW HIGH SCORE</string>
+    <string name="m4">SHOW LAST ATTEMPT</string>
+
+    <string name="p">PLAY</string>
+    <string name="p0">Jawaban</string>
+    <string name="p1">SKOR</string>
+    <string name="p2">TIMER</string>
+    <string name="p3">SELESAI</string>
+    <string name="p4">JAWAB</string>
+
+    <string name="rs">RESULT PAGE</string>
+    <string name="rs0">Score</string>
+    <string name="rs1">HALAMAN UTAMA</string>
+    <string name="rs2">Tunjukan jawaban</string>
+    <string name="rs3">MANI LAGI</string>
+</resources>
