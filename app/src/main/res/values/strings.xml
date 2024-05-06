@@ -8,6 +8,12 @@
     <string name="m3">SHOW HIGH SCORE</string>
     <string name="m4">SHOW LAST ATTEMPT</string>
     <string name="m5">ubah</string>
+    <string name="m6">belajar</string>
+
+    <string name="b">BELAJAR PAGE</string>
+    <string name="b0">PLAY</string>
+    <string name="b1">MAIN PAGE</string>
+
 
     <string name="p">PLAY</string>
     <string name="p0">Jawaban</string>

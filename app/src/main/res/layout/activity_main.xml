@@ -126,6 +126,13 @@
                 </Button>
             </TableRow>
         </TableLayout>
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text= "@string/m6"
+            android:onClick="belajar"
+            >
+        </Button>
 
         <LinearLayout
             android:id="@+id/result0"
@@ -153,7 +160,6 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/soalEsai"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text= "@string/m2"

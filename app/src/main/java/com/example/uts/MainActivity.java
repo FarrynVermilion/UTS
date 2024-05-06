@@ -215,4 +215,9 @@ public class MainActivity extends AppCompatActivity {
         ll1.removeAllViews();
         ll1bool=true;
     }
+    public void belajar(View view){
+        Intent intent = new Intent(this,belajar.class);
+        intent.putExtra("mode",mode);
+        startActivity(intent);
+    }
 }
