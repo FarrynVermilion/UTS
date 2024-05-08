@@ -7,13 +7,19 @@
     <string name="m2">PLAY</string>
     <string name="m3">SHOW HIGH SCORE</string>
     <string name="m4">SHOW LAST ATTEMPT</string>
-    <string name="m5">ubah</string>
-    <string name="m6">belajar</string>
+    <string name="m5">UBAH</string>
+    <string name="m6">BELAJAR</string>
 
     <string name="b">BELAJAR PAGE</string>
     <string name="b0">PLAY</string>
     <string name="b1">MAIN PAGE</string>
-
+    <string name="b2">PREV</string>
+    <string name="b3">NEXT</string>
+    <string name="b4">SOAL</string>
+    <string name="b5">INDONESIA</string>
+    <string name="b6">KANJI</string>
+    <string name="b7">ONYOMI</string>
+    <string name="b8">KUNYOMI</string>
 
     <string name="p">PLAY</string>
     <string name="p0">Jawaban</string>
@@ -27,4 +33,6 @@
     <string name="rs1">HALAMAN UTAMA</string>
     <string name="rs2">Tunjukan jawaban</string>
     <string name="rs3">MANI LAGI</string>
+
+
 </resources>

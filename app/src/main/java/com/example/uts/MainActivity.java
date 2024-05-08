@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,13 +41,14 @@ public class MainActivity extends AppCompatActivity {
     boolean ll0bool=true;
     boolean ll1bool=true;
     int HighScore;
-    int jumSelesai;
     int mode;
-
+    musicAndSFX m = new musicAndSFX();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        m.playMusic(0,MainActivity.this);
 
         ContextHiScore = findViewById(R.id.contextHiScore);
         ll0 = findViewById(R.id.result0);
@@ -64,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
         HighScore = simpan.getInt("HiScore",0);
         ContextHiScore.setText(String.valueOf(HighScore));
-
-        jumSelesai = simpan.getInt("bestAttempt",0);
     }
     public void setMode(int x){
         String str="";
@@ -114,7 +114,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clearHiScore(View view){
+        int jumSelesai = simpan.getInt("bestAttempt",0);
         if(jumSelesai > 0){
+            removeAllTV();
             editor.remove("lastAttemptScore");
             editor.remove("lastAttemptSoal");
             editor.remove("HiScore");
@@ -146,7 +148,9 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             if(ll0bool){
-                setTVloop("bestAttempt","HiScore",ll0,z);
+                setTVloop("bestAttempt","HiScore",
+                        "Pertanyaan Hi Score ","Soal Hi Score ","Jawaban High Score ","BS HiScore ",
+                        ll0,z);
                 ll0bool=false;
             }
             else{
@@ -163,7 +167,9 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             if(ll1bool){
-                setTVloop("lastAttemptSoal","lastAttemptScore",ll1,z);
+                setTVloop("lastAttemptSoal","lastAttemptScore",
+                        "Pertanyaan ","Soal ","Jawaban ", "BS ",
+                        ll1,z);
                 ll1bool=false;
             }
             else{
@@ -173,17 +179,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setTVloop(String str0,String str1,LinearLayout layout,int z){
+    public void setTVloop(String str0,String str1,String Pertanyaan,String Soal,String Jawab,String BS,LinearLayout layout,int z){
         TextView textJwb=new TextView(this);
         String A = String.valueOf(simpan.getInt(str0,0));
         String B = String.valueOf(simpan.getInt(str1,0));
         textJwb.setText("Jumlah soal yang dijawab "+A+" dengan skor "+B);
         layout.addView(textJwb);
         for(int x=0;x<z;x++){
-            String pertamyaam = simpan.getString("Pertanyaan "+ x,null);
-            String soal = simpan.getString("Soal "+ x,null);
-            String jawab = simpan.getString("Jawaban "+ x,null);
-            String bs = simpan.getString("BS "+ x,null);
+            String pertamyaam = simpan.getString(Pertanyaan+ x,null);
+            String soal = simpan.getString(Soal+ x,null);
+            String jawab = simpan.getString(Jawab + x,null);
+            String bs = simpan.getString(BS+ x,null);
             String str = pertamyaam+" "+soal+" adalah "+jawab+" "+bs;
             TextView textIsi = new TextView(this);
             textIsi.setText(str);
@@ -191,11 +197,6 @@ public class MainActivity extends AppCompatActivity {
             layout.addView(textIsi);
         }
 
-    }
-    public void play(View view){
-        Intent next = new Intent(this,play.class);
-        next.putExtra("mode",mode);
-        startActivity(next);
     }
     public void left(View view){
         mode=mode-1;
@@ -215,7 +216,14 @@ public class MainActivity extends AppCompatActivity {
         ll1.removeAllViews();
         ll1bool=true;
     }
+    public void play(View view){
+        m.stopMusic();
+        Intent next = new Intent(this,play.class);
+        next.putExtra("mode",mode);
+        startActivity(next);
+    }
     public void belajar(View view){
+        m.stopMusic();
         Intent intent = new Intent(this,belajar.class);
         intent.putExtra("mode",mode);
         startActivity(intent);

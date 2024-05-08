@@ -19,6 +19,7 @@ public class result extends AppCompatActivity {
     int mode;
     LinearLayout ll;
     boolean bool = true;
+    musicAndSFX m = new musicAndSFX();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.result);
@@ -30,9 +31,13 @@ public class result extends AppCompatActivity {
 
         int skr = getIntent().getIntExtra("skor",0);
         skorTV.setText(String.valueOf(skr));
-        if(skr == simpan.getInt("HiScore",0)){
+        if(skr >= simpan.getInt("HiScore",0)){
+            m.playMusic(2,result.this);
             nameTV=findViewById(R.id.nameSK);
             nameTV.setText("New High score");
+        }
+        else{
+            m.playMusic(1,result.this);
         }
     }
     public void showResultPlay(View view){
@@ -63,11 +68,13 @@ public class result extends AppCompatActivity {
         }
     }
     public void goToMainpage(View view){
+        m.stopMusic();
         Intent next = new Intent(this,MainActivity.class);
         next.putExtra("mode",mode);
         startActivity(next);
     }
     public void playAgain(View view){
+        m.stopMusic();
         Intent next = new Intent(this,play.class);
         next.putExtra("mode",mode);
         startActivity(next);
