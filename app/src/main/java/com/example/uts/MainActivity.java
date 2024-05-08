@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(),"Tidak ada last score",Toast.LENGTH_SHORT).show();
         }
         else{
-            if(ll0bool){
+            if(ll1bool){
                 setTVloop("lastAttemptSoal","lastAttemptScore",ll1,z);
                 ll1bool=false;
             }
