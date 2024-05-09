@@ -59,7 +59,7 @@
                     android:background="@drawable/line0"
                     android:onClick="right"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/lefty"
+                    android:src="@drawable/righty"
                     >
                 </ImageButton>
             </TableRow>
