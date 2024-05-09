@@ -34,16 +34,18 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 >
-                <Button
-                    android:layout_height="wrap_content"
+                <ImageButton
                     android:layout_width="100sp"
-                    android:text="@string/m5"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/line0"
                     android:onClick="left"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/lefty"
                     >
-                </Button>
+                </ImageButton>
                 <TextView
                     android:layout_width="200sp"
-                    android:layout_height="match_parent"
+                    android:layout_height="50sp"
                     android:text="mode"
                     android:gravity="center"
                     android:background="@drawable/line"
@@ -51,13 +53,15 @@
                     android:id="@+id/mode"
                     >
                 </TextView>
-                <Button
-                    android:layout_height="wrap_content"
+                <ImageButton
                     android:layout_width="100sp"
-                    android:text="@string/m5"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/line0"
                     android:onClick="right"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/lefty"
                     >
-                </Button>
+                </ImageButton>
             </TableRow>
         </TableLayout>
         <TableLayout
