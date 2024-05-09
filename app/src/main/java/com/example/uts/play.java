@@ -122,7 +122,7 @@ public class play extends AppCompatActivity {
         // bacgkround music ada warning statis acuhin soalnya
         // kalo gk bakal kena GC (garbage collection) android
         m.randomMusic(play.this);
-
+        m.playSFX(2,play.this);
         //create soal
         pilihanModeSoal(mode);
 

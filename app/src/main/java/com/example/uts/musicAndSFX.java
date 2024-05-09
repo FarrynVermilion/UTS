@@ -58,6 +58,9 @@ public class musicAndSFX {
             case 1:
                 sfx = MediaPlayer.create(context,R.raw.clang_and_wobble);
                 break;
+            case 2:
+                sfx = MediaPlayer.create(context,R.raw.big_gun_shots_close);
+                break;
         }
         sfx.setLooping(false);
         sfx.start();
