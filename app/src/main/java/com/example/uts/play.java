@@ -405,7 +405,7 @@ public class play extends AppCompatActivity {
             // toh gak hitung jumlah line of code
             public void onFinish() {
                 TimerTV.setText("00:00:00");
-                nextPage();
+                funcNextPage();;
             }
         }.start();
     }
@@ -419,15 +419,18 @@ public class play extends AppCompatActivity {
             Toast.makeText(getBaseContext(),"Belum dikerjakan",Toast.LENGTH_SHORT).show();
         }
         else {
-            m.stopMusic();
-            m.stopSFX();
-            myCountDownTimer.cancel();
-            Intent next = new Intent(this,result.class);
-
-            next.putExtra("mode",mode);
-            next.putExtra("skor",skorCounter);
-            startActivity(next);
+            funcNextPage();
         }
+    }
+    public void funcNextPage(){
+        m.stopMusic();
+        m.stopSFX();
+        myCountDownTimer.cancel();
+        Intent next = new Intent(this,result.class);
+
+        next.putExtra("mode",mode);
+        next.putExtra("skor",skorCounter);
+        startActivity(next);
     }
     public void onDestroy() {
         // tutup db kalau tutup aplikasi
@@ -459,7 +462,7 @@ public class play extends AppCompatActivity {
         if(createCounter>=soalNo.size()){
             String str = "semua soal sudah dijawab semua";
             Toast.makeText(getBaseContext(),str, Toast.LENGTH_SHORT).show();
-            nextPage();
+            funcNextPage();
         }
         else{
             Toast.makeText(getBaseContext(),String.valueOf(createCounter), Toast.LENGTH_SHORT).show();
