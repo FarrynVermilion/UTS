@@ -74,40 +74,40 @@ public class MainActivity extends AppCompatActivity {
                 str = "Random";
                 break;
             case 1:
-                str = "Indonesia -> Kunyomi";
+                str = "Indonesia ke Kunyomi";
                 break;
             case 2:
-                str = "Indonesia -> Onyomi";
+                str = "Indonesia ke Onyomi";
                 break;
             case 3:
-                str = "Indonesia -> Kanji";
+                str = "Indonesia ke Kanji";
                 break;
             case 4:
-                str = "Kunyomi -> Indonesia";
+                str = "Kunyomi ke Indonesia";
                 break;
             case 5:
-                str = "Kunyomi -> Onyomi";
+                str = "Kunyomi ke Onyomi";
                 break;
             case 6:
-                str = "Kunyomi -> Kanji";
+                str = "Kunyomi ke Kanji";
                 break;
             case 7:
-                str = "Onyomi -> Indonesia";
+                str = "Onyomi ke Indonesia";
                 break;
             case 8:
-                str = "Onyomi -> Kunyomi";
+                str = "Onyomi ke Kunyomi";
                 break;
             case 9:
-                str = "Onyomi -> Kanji";
+                str = "Onyomi ke Kanji";
                 break;
             case 10:
-                str = "Kanji -> Indonesia";
+                str = "Kanji ke Indonesia";
                 break;
             case 11:
-                str = "Kanji -> Kunyomi";
+                str = "Kanji ke Kunyomi";
                 break;
             case 12:
-                str = "Kanji -> Onyomi";
+                str = "Kanji ke Onyomi";
                 break;
         }
         modeTV.setText(str);
