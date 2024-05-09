@@ -126,8 +126,6 @@ public class play extends AppCompatActivity {
         //create soal
         pilihanModeSoal(mode);
 
-
-
         timer(60000,0);
         addListenerButton();
     }
@@ -144,6 +142,7 @@ public class play extends AppCompatActivity {
 
         //1 karena primary key dimulai dari 1, dan +1 untuk key selanjutnya
         int min = 1;
+
         for (int x = min;x<=maxSoal;x++){
             //masukin angka ke soalno buat diacak
             soalNo.add(x);
