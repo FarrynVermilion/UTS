@@ -2,6 +2,7 @@ package com.example.uts;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.CountDownTimer;
 
 import java.util.Random;
 
@@ -59,7 +60,7 @@ public class musicAndSFX {
                 sfx = MediaPlayer.create(context,R.raw.clang_and_wobble);
                 break;
             case 2:
-                sfx = MediaPlayer.create(context,R.raw.big_gun_shots_close);
+                sfx = MediaPlayer.create(context,R.raw.big_gun_shots_close);//harus potong ada 2 ledakan
                 break;
         }
         sfx.setLooping(false);
