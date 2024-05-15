@@ -416,7 +416,7 @@ public class play extends AppCompatActivity {
     public void nextPage(){
         if (JAWABAN.isEmpty()){
             Toast.makeText(getBaseContext(),"Belum dikerjakan",Toast.LENGTH_SHORT).show();
-//            funcNextPage(); kalo mau langsung keluar
+            funcNextPage();
         }
         else {
             funcNextPage();
